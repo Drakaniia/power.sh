@@ -1,13 +1,35 @@
-# Post-Installation Automation Script
+# Power.sh
 
-A comprehensive Windows post-installation automation script that minimizes manual setup time while maintaining system safety, clarity, and user control.
+Automated Windows post-installation setup with essential apps, CLI tools, and system optimization.
 
 ## Features
 
-- **Modular Design**: 7 distinct phases that can be run independently
-- **Safety First**: Explicit confirmations for risky operations and comprehensive logging
-- **Mixed Automation**: PowerShell for system tasks with minimal GUI automation
-- **User Control**: Optional components with clear selection menus
+### Automation Capabilities
+- **One-Command Setup**: Complete Windows post-installation automation
+- **Smart Package Management**: Winget primary, Chocolatey fallback
+- **PowerShell Automation**: System-level configuration and optimization
+- **Cross-Shell Support**: Compatible with PowerShell, Git Bash, and WSL
+
+### Safety & Control
+- **Modular Design**: 7 independent steps - run what you need
+- **Comprehensive Logging**: Detailed session logs with timestamps
+- **User Confirmation**: Explicit approval for risky operations
+- **Registry Backups**: Automatic backups before system changes
+- **Graceful Degradation**: Continues even when some steps fail
+
+### Developer Tools
+- **IDE Installation**: VS Code with default settings
+- **Version Control**: Git configuration and setup
+- **Runtime Environment**: Node.js LTS with npm
+- **CLI Tools**: OpenCode AI, Qwen Code CLI, iFlow CLI
+- **Automation Scripts**: AutoHotkey v2 with mouse remapping
+
+### System Optimization
+- **Performance Tuning**: Ultimate Performance power plan activation
+- **Privacy Hardening**: Telemetry and advertising ID management
+- **Debloating**: Optional removal of Windows bloatware
+- **Visual Effects**: Performance-oriented display settings
+- **Startup Optimization**: Review and management of startup programs
 
 ## Quick Start
 
@@ -27,56 +49,7 @@ A comprehensive Windows post-installation automation script that minimizes manua
    Start-Process powershell -Verb RunAs -ArgumentList '-Command "cd \"C:\Project Files\Power Es Aech\"; bash bin/run.sh"'
    ```
 
-## What It Does
 
-### Phase 1: Environment Validation
-- **[AUTO]** Checks Windows version compatibility
-- **[AUTO]** Validates bash environment
-- **[AUTO]** Creates logging infrastructure
-
-### Phase 2: Optional Debloat & Tweaks
-- **[USER]** Interactive menu for debloat script selection
-- **[ADMIN]** Administrator PowerShell required
-- **Available Options**:
-  - Win11 Debloat (raphi.re) - Removes bloatware and telemetry
-  - Windows Tweaks (Chris Titus Tech) - Performance and privacy tweaks
-  - Debloat11 Script - Alternative debloat approach
-  - Windows Activation Script - KMS activation (legal warning included)
-
-### Phase 3: Ultimate Performance Power Plan
-- **[AUTO]** Unlocks and activates Ultimate Performance power plan
-- **[ADMIN]** Administrator PowerShell required
-- **[FALLBACK]** Uses High Performance if Ultimate Performance unavailable
-- **[MANUAL]** Opens Windows Settings for visual confirmation
-
-### Phase 4: Essential Applications
-- **[AUTO]** Installs via winget/chocolatey with fallbacks
-- **[ADMIN]** Administrator PowerShell required
-- **Applications Installed**:
-  - Visual Studio Code
-  - Yandex Browser
-  - Node.js LTS
-  - Git
-  - AutoHotkey v2
-
-### Phase 5: Terminal AI CLI Tools
-- **[AUTO]** Installs global npm packages and bash tools
-- **Tools Installed**:
-  - OpenCode AI (`npm i -g opencode-ai`)
-  - Qwen Code CLI (`npm install -g @qwen-code/qwen-code@latest`)
-  - iFlow CLI (bash installation)
-
-### Phase 6: AutoHotkey Setup
-- **[AUTO]** Creates and deploys mouse remapping script
-- **[OPTIONAL]** Startup integration (user choice)
-- **Script Features**:
-  - F3 key → Left mouse button (click/hold/drag)
-  - Middle mouse button → Browser back navigation
-
-### Phase 7: System Settings
-- **[AUTO]** Registry-based performance and privacy settings
-- **[MANUAL]** Opens SystemPropertiesPerformance for user configuration
-- **[MIXED]** Some settings require Administrator privileges
 
 ## Legend
 
@@ -170,27 +143,7 @@ After running the script, manually verify:
    iflow --version
    ```
 
-## Implementation Details
 
-### Smart Package Management
-- Primary: Winget (Windows Package Manager)
-- Fallback: Chocolatey package manager
-- Direct downloads: For critical applications when package managers fail
-- Cross-platform: Supports PowerShell, Git Bash, and WSL environments
-
-### Error Handling & Recovery
-- Comprehensive logging to timestamped log files
-- Graceful degradation when Administrator privileges unavailable
-- Automatic retries for network-dependent operations
-- Registry backups before making system changes
-- Process validation after each installation
-
-### Security Features
-- Explicit warnings before executing remote scripts
-- User confirmation required for potentially risky operations
-- No automatic execution of untrusted code
-- Registry change backups for rollback capability
-- Antivirus compatibility considerations
 
 ## Customization
 
@@ -235,24 +188,3 @@ Always review the code before running and ensure you trust the remote script sou
 - **Windows Package Manager (winget)** - auto-installed if missing
 - **Chocolatey** - fallback package manager, auto-installed if needed
 
-## License
-
-This script is provided as-is for educational and personal use. Use at your own risk and ensure you understand what each component does before execution.
-
-## Support & Updates
-
-For issues, feature requests, or contributions:
-1. Check the session log files for detailed error information
-2. Review the execution plan for understanding each phase
-3. Test individual PowerShell modules separately for troubleshooting
-4. Ensure all prerequisites are met before running the full script
-
-## Changelog
-
-**v1.0.0** - Initial Release
-- 7-phase modular automation system
-- Comprehensive application installation
-- AutoHotkey script deployment
-- Terminal AI CLI tools setup
-- System optimization and security hardening
-- Cross-shell compatibility support
