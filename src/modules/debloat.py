@@ -41,12 +41,12 @@ class WindowsDebloat:
             options["0"] = {"title": "Back to Main Menu"}
 
             # Print header manually to match the expected format
-            print("DEBLOAT & TWEAKS")
-            print("----------------")
+            print("     DEBLOAT & TWEAKS")
+            print("     ----------------")
 
-            # Print each option with proper formatting
+            # Print each option with proper formatting and left padding
             for key, option in options.items():
-                print(f"[{key}] {option.get('title', 'Unknown')}")
+                print(f"     [{key}] {option.get('title', 'Unknown')}")
 
             print()
 
