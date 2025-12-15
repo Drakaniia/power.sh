@@ -44,29 +44,129 @@ class AppInstaller:
             elif choice == "99":
                 self.install_all_apps()
             elif choice.isdigit() and 1 <= int(choice) <= len(self.apps):
-                self.install_single_app(int(choice) - 1)
+                self.show_app_options(int(choice) - 1)
     
     def check_winget_available(self):
         """Check if winget is available on the system"""
         return self.system.check_program_exists("winget")
     
+    def show_app_options(self, app_index):
+        """Show app options including version selection and download link"""
+        if 0 <= app_index < len(self.apps):
+            app = self.apps[app_index]
+
+            while True:
+                self.system.clear_screen()
+                self.system.print_header(f"Options for {app['name']}")
+
+                # Create options for versions and download link
+                options = {}
+
+                # Add version options
+                for i, version in enumerate(app.get('versions', ['latest']), 1):
+                    options[str(i)] = {"title": f"Install {version}"}
+
+                # Add download link option as the last option before back
+                num_versions = len(app.get('versions', ['latest']))
+                options[str(num_versions + 1)] = {"title": f"📋 Download from: {app.get('download_url', 'N/A')}"}
+                options["0"] = {"title": "Back to Apps List"}
+
+                self.system.print_menu(f"OPTIONS FOR {app['name']}", options)
+
+                choice = self.system.get_menu_choice(options)
+
+                if choice == "0":
+                    return  # Go back to main installer menu
+                elif choice.isdigit():
+                    choice_num = int(choice)
+                    num_versions = len(app.get('versions', ['latest']))
+
+                    if 1 <= choice_num <= num_versions:
+                        # Install specific version
+                        selected_version = app['versions'][choice_num - 1]
+                        self.install_app_winget_version(app['id'], app['name'], selected_version)
+                    elif choice_num == num_versions + 1:
+                        # Show download link
+                        download_url = app.get('download_url', 'N/A')
+                        print(f"\n🌐 Download link for {app['name']}:")
+                        print(f"🔗 {download_url}")
+                        print("\n💡 You can copy this link to manually download the application.")
+                        self.system.pause_execution()
+                    else:
+                        print("❌ Invalid option")
+                        self.system.pause_execution()
+        else:
+            print("❌ Invalid app index")
+            self.system.pause_execution()
+
     def install_single_app(self, app_index):
-        """Install a single application"""
+        """Install a single application (maintaining backward compatibility)"""
         if 0 <= app_index < len(self.apps):
             app = self.apps[app_index]
             self.install_app_winget(app['id'], app['name'])
         else:
             print("❌ Invalid app index")
             self.system.pause_execution()
+
+    def install_app_winget_version(self, app_id, app_name, version):
+        """Install a specific version of application using winget"""
+        print(f"\nInstalling {app_name} ({version})...")
+        print(f"🔧 Package ID: {app_id}")
+        print(f"🔧 Version: {version}")
+        print("-" * 40)
+
+        try:
+            # Build winget command with version parameter if not 'latest'
+            command = ["winget", "install", "--id", app_id]
+
+            if version.lower() != "latest":
+                command.extend(["--version", version])
+
+            command.extend([
+                "--accept-package-agreements",
+                "--accept-source-agreements",
+                "--silent",
+                "--ignore-warnings"
+            ])
+
+            print(f"🔧 Executing: {' '.join(command)}")
+
+            result = subprocess.run(
+                command,
+                capture_output=True,
+                text=True,
+                timeout=300  # 5 minutes timeout
+            )
+
+            if result.returncode == 0:
+                print(f"✅ {app_name} ({version}) installed successfully")
+                return True
+            else:
+                # Check if already installed
+                if "already installed" in result.stderr.lower() or "already exists" in result.stderr.lower():
+                    print(f"ℹ️ {app_name} ({version}) is already installed")
+                    return True
+                else:
+                    print(f"❌ Failed to install {app_name} ({version})")
+                    print(f"📄 Error: {result.stderr.strip()}")
+                    return False
+
+        except subprocess.TimeoutExpired:
+            print(f"❌ Installation of {app_name} ({version}) timed out")
+            return False
+        except Exception as e:
+            print(f"❌ Error installing {app_name} ({version}): {e}")
+            return False
     
     def install_all_apps(self):
         """Install all essential apps"""
         if not self.system.get_confirmation("Install all essential apps? This may take several minutes."):
             print("❌ Operation cancelled")
             return
-        
+
         for app in self.apps:
-            self.install_app_winget(app['id'], app['name'])
+            # Install using the latest version by default
+            self.install_app_winget_version(app['id'], app['name'], 'latest')
             time.sleep(2)  # Brief pause between installations
     
     def install_app_winget(self, app_id, app_name):

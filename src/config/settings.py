@@ -43,11 +43,12 @@ WINDOWS_COMMANDS = {
 
 # Essential Apps Configuration
 ESSENTIAL_APPS = [
-    {"id": "Microsoft.VisualStudioCode", "name": "Visual Studio Code"},
-    {"id": "Yandex.Browser", "name": "Yandex Browser"},
-    {"id": "OpenJS.NodeJS", "name": "Node.js LTS"},
-    {"id": "Git.Git", "name": "Git"},
-    {"id": "AutoHotkey.AutoHotkey", "name": "AutoHotKey"}
+    {"id": "Microsoft.VisualStudioCode", "name": "Visual Studio Code", "versions": ["latest"], "download_url": "https://code.visualstudio.com/download"},
+    {"id": "Yandex.Browser", "name": "Yandex Browser", "versions": ["latest"], "download_url": "https://browser.yandex.com/download/"},
+    {"id": "OpenJS.NodeJS", "name": "Node.js LTS", "versions": ["latest", "18.x", "20.x"], "download_url": "https://nodejs.org/en/download"},
+    {"id": "Python.Python.3", "name": "Python 3", "versions": ["latest", "3.11", "3.12"], "download_url": "https://www.python.org/downloads/"},
+    {"id": "Git.Git", "name": "Git", "versions": ["latest"], "download_url": "https://git-scm.com/download/win"},
+    {"id": "AutoHotkey.AutoHotkey", "name": "AutoHotKey", "versions": ["latest"], "download_url": "https://www.autohotkey.com/download/"}
 ]
 
 # Terminal AI Tools Configuration
