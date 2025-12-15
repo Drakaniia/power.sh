@@ -354,6 +354,7 @@ SCRIPTEND
         echo "To run with Administrator privileges:"
         echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
         echo "2. Navigate to the project directory"
+        echo "   cd \"$(dirname "$(dirname "$SCRIPT_DIR")")\""
         echo "3. Run: bash bin/run.sh"
         return 1
     fi
@@ -675,6 +676,7 @@ SCRIPTEND
         echo "To run with Administrator privileges:"
         echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
         echo "2. Navigate to the project directory"
+        echo "   cd \"$(dirname "$(dirname "$SCRIPT_DIR")")\""
         echo "3. Run: bash bin/run.sh"
         return 1
     fi
@@ -1224,6 +1226,7 @@ SCRIPTEND
         echo "To run with Administrator privileges:"
         echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
         echo "2. Navigate to the project directory"
+        echo "   cd \"$(dirname "$(dirname "$SCRIPT_DIR")")\""
         echo "3. Run: bash bin/run.sh"
         return 1
     fi
@@ -2555,6 +2558,7 @@ SCRIPTEND
         echo "To run with Administrator privileges:"
         echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
         echo "2. Navigate to the project directory"
+        echo "   cd \"$(dirname "$(dirname "$SCRIPT_DIR")")\""
         echo "3. Run: bash bin/run.sh"
         return 1
     fi
@@ -2592,6 +2596,7 @@ run_all_phases() {
         echo "To run with Administrator privileges:"
         echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
         echo "2. Navigate to the project directory"
+        echo "   cd \"$(dirname "$(dirname "$SCRIPT_DIR")")\""
         echo "3. Run: bash bin/run.sh"
     fi
 
@@ -2603,6 +2608,7 @@ run_all_phases() {
         echo "To run with Administrator privileges:"
         echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
         echo "2. Navigate to the project directory"
+        echo "   cd \"$(dirname "$(dirname "$SCRIPT_DIR")")\""
         echo "3. Run: bash bin/run.sh"
     fi
 
@@ -2614,6 +2620,7 @@ run_all_phases() {
         echo "To run with Administrator privileges:"
         echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
         echo "2. Navigate to the project directory"
+        echo "   cd \"$(dirname "$(dirname "$SCRIPT_DIR")")\""
         echo "3. Run: bash bin/run.sh"
     fi
 
@@ -2631,6 +2638,7 @@ run_all_phases() {
         echo "To run with Administrator privileges:"
         echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
         echo "2. Navigate to the project directory"
+        echo "   cd \"$(dirname "$(dirname "$SCRIPT_DIR")")\""
         echo "3. Run: bash bin/run.sh"
     fi
 
