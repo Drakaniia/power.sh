@@ -69,15 +69,20 @@ class SystemUtils:
                     ps_args = ["powershell", "-NoExit", "-WindowStyle", "Normal", "-Command", command]
                 else:
                     ps_args = ["powershell", "-Command", command]
-            
+
             print(f" Executing: {command}")
-            
+
             if interactive:
                 # For interactive scripts, don't capture output to allow GUI to show
                 result = subprocess.run(
                     ps_args,
                     timeout=timeout
                 )
+
+                # For interactive commands, we assume success if no exception occurs
+                # since the window is meant to stay open for user interaction
+                print("Command executed successfully")
+                return True, ""
             else:
                 result = subprocess.run(
                     ps_args,
@@ -85,16 +90,16 @@ class SystemUtils:
                     text=True,
                     timeout=timeout
                 )
-            
-            if result.returncode == 0:
-                print("Command executed successfully")
-                if result.stdout.strip():
-                    print(f"Output: {result.stdout.strip()}")
-                return True, result.stdout
-            else:
-                print(f"Command failed: {result.stderr.strip()}")
-                return False, result.stderr
-                
+
+                if result.returncode == 0:
+                    print("Command executed successfully")
+                    if result.stdout and result.stdout.strip():
+                        print(f"Output: {result.stdout.strip()}")
+                    return True, result.stdout
+                else:
+                    print(f"Command failed: {result.stderr.strip() if result.stderr else 'Unknown error'}")
+                    return False, result.stderr
+
         except subprocess.TimeoutExpired:
             print("Command timed out")
             return False, "Command timed out"
