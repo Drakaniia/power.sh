@@ -38,12 +38,12 @@ class WindowsAutomationToolkit:
         """Main entry point for the toolkit"""
         # Check admin privileges and relaunch if needed
         if not self.system.is_admin:
-            print("⚠️ This toolkit requires administrator privileges for full functionality.")
+            print("This toolkit requires administrator privileges for full functionality.")
             if self.system.get_confirmation("Relaunch as Administrator?"):
                 if self.system.relaunch_as_admin():
                     return
             else:
-                print("⚠️ Some features may not work without administrator privileges.")
+                print("Some features may not work without administrator privileges.")
                 self.system.pause_execution()
         
         # Start the main menu
@@ -81,7 +81,7 @@ class WindowsAutomationToolkit:
         """Exit the toolkit with a farewell message"""
         self.system.clear_screen()
         print("╔══════════════════════════════════════════════════════════════╗")
-        print("║                    🎉 THANK YOU FOR USING! 🎉                  ║")
+        print("║                     THANK YOU FOR USING!                   ║")
         print("║              Windows Automation Toolkit v2.0.0                ║")
         print("║                                                              ║")
         print("║  Your Windows system has been optimized and enhanced!        ║")
@@ -98,19 +98,19 @@ class WindowsAutomationToolkit:
         self.system.clear_screen()
         self.system.print_header("System Information")
         
-        print("💻 System Details:")
+        print(" System Details:")
         print("=" * 40)
-        print(f"👤 User: {self.system.user_profile}")
-        print(f"📁 Documents: {self.system.documents_folder}")
-        print(f"🔑 Admin: {'Yes ✅' if self.system.is_admin else 'No ⚠️'}")
+        print(f" User: {self.system.user_profile}")
+        print(f" Documents: {self.system.documents_folder}")
+        print(f"Admin: {'Yes' if self.system.is_admin else 'No'}")
         
         # Check available tools
-        print("\n🛠️ Available Tools:")
+        print("\n Available Tools:")
         print("-" * 40)
-        print(f"Winget: {'✅' if self.system.check_program_exists('winget') else '❌'}")
-        print(f"Node.js: {'✅' if self.system.check_program_exists('node') else '❌'}")
-        print(f"npm: {'✅' if self.system.check_program_exists('npm') else '❌'}")
-        print(f"AutoHotKey: {'✅' if self.system.check_program_exists('AutoHotkey64.exe') else '❌'}")
+        print(f"Winget: {'Available' if self.system.check_program_exists('winget') else 'Not Available'}")
+        print(f"Node.js: {'Available' if self.system.check_program_exists('node') else 'Not Available'}")
+        print(f"npm: {'Available' if self.system.check_program_exists('npm') else 'Not Available'}")
+        print(f"AutoHotKey: {'Available' if self.system.check_program_exists('AutoHotkey64.exe') else 'Not Available'}")
         
         self.system.pause_execution()
 
@@ -121,9 +121,9 @@ def main():
         toolkit = WindowsAutomationToolkit()
         toolkit.run()
     except KeyboardInterrupt:
-        print("\n\n👋 Operation cancelled by user. Goodbye!")
+        print("\n\nOperation cancelled by user. Goodbye!")
     except Exception as e:
-        print(f"\n❌ An unexpected error occurred: {e}")
+        print(f"\nAn unexpected error occurred: {e}")
         import traceback
         traceback.print_exc()
         input("Press Enter to exit...")

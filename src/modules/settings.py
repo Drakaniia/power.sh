@@ -53,18 +53,18 @@ class WindowsSettings:
             command = self.commands[command_key]
             success = self.open_windows_tool(command, option['title'])
             if success:
-                print(f"✅ {option['title']} opened successfully")
+                print(f" {option['title']} opened successfully")
             else:
-                print(f"❌ Failed to open {option['title']}")
+                print(f" Failed to open {option['title']}")
             self.system.pause_execution()
         else:
-            print(f"❌ Unknown command: {command_key}")
+            print(f" Unknown command: {command_key}")
             self.system.pause_execution()
     
     def open_windows_tool(self, command, tool_name):
         """Open a Windows tool using Run command"""
         try:
-            print(f"🔧 Opening: {tool_name} ({command})")
+            print(f" Opening: {tool_name} ({command})")
             
             # Use subprocess.Popen for non-blocking execution
             subprocess.Popen(
@@ -75,7 +75,7 @@ class WindowsSettings:
             
             return True
         except Exception as e:
-            print(f"❌ Failed to open {tool_name}: {e}")
+            print(f" Failed to open {tool_name}: {e}")
             return False
     
     def run_command(self, command_key):
@@ -84,7 +84,7 @@ class WindowsSettings:
             command = self.commands[command_key]
             return self.open_windows_tool(command, command)
         else:
-            print(f"❌ Unknown command: {command_key}")
+            print(f" Unknown command: {command_key}")
             return False
     
     def open_performance_options(self):
@@ -124,15 +124,15 @@ class WindowsSettings:
             name = key.replace('_', ' ').title()
         
         self.commands[key] = command
-        print(f"✅ Added custom command: {key} -> {command}")
+        print(f" Added custom command: {key} -> {command}")
         return True
     
     def remove_custom_command(self, key):
         """Remove a custom command"""
         if key in self.commands:
             removed_command = self.commands.pop(key)
-            print(f"✅ Removed custom command: {key} -> {removed_command}")
+            print(f" Removed custom command: {key} -> {removed_command}")
             return True
         else:
-            print(f"❌ Command not found: {key}")
+            print(f" Command not found: {key}")
             return False

@@ -33,7 +33,7 @@ class SystemUtils:
                 )
                 sys.exit(0)
             except Exception as e:
-                print(f"❌ Failed to relaunch as admin: {e}")
+                print(f" Failed to relaunch as admin: {e}")
                 return False
         return True
     
@@ -43,12 +43,12 @@ class SystemUtils:
     
     def pause_execution(self):
         """Pause execution and wait for user input"""
-        input("\n⏸️ Press Enter to continue...")
+        input("\nPress Enter to continue...")
     
     def get_confirmation(self, message):
         """Get user confirmation for potentially risky operations"""
         while True:
-            response = input(f"\n⚠️ {message} (y/n): ").lower().strip()
+            response = input(f"\n{message} (y/n): ").lower().strip()
             if response in ['y', 'yes']:
                 return True
             elif response in ['n', 'no']:
@@ -63,7 +63,7 @@ class SystemUtils:
             if bypass_policy:
                 ps_command = f"-ExecutionPolicy Bypass -Command \"{command}\""
             
-            print(f"🔧 Executing: {command}")
+            print(f" Executing: {command}")
             result = subprocess.run(
                 ["powershell", ps_command],
                 capture_output=True,
@@ -72,19 +72,19 @@ class SystemUtils:
             )
             
             if result.returncode == 0:
-                print("✅ Command executed successfully")
+                print("Command executed successfully")
                 if result.stdout.strip():
-                    print(f"📄 Output: {result.stdout.strip()}")
+                    print(f"Output: {result.stdout.strip()}")
                 return True, result.stdout
             else:
-                print(f"❌ Command failed: {result.stderr.strip()}")
+                print(f"Command failed: {result.stderr.strip()}")
                 return False, result.stderr
                 
         except subprocess.TimeoutExpired:
-            print("❌ Command timed out")
+            print("Command timed out")
             return False, "Command timed out"
         except Exception as e:
-            print(f"❌ Error executing command: {e}")
+            print(f"Error executing command: {e}")
             return False, str(e)
     
     def run_powershell_script(self, script_url, description):
@@ -93,7 +93,7 @@ class SystemUtils:
         print("=" * 50)
         
         if not self.get_confirmation(f"Run {description}? This will execute PowerShell scripts from the internet."):
-            print("❌ Operation cancelled by user")
+            print("Operation cancelled by user")
             return False
         
         command = f"[scriptblock]::Create((irm \"{script_url}\"))"
@@ -103,7 +103,7 @@ class SystemUtils:
     def run_command(self, command, shell=True, timeout=60):
         """Run a system command"""
         try:
-            print(f"🔧 Executing: {command}")
+            print(f" Executing: {command}")
             result = subprocess.run(
                 command,
                 shell=shell,
@@ -113,19 +113,19 @@ class SystemUtils:
             )
             
             if result.returncode == 0:
-                print("✅ Command executed successfully")
+                print("Command executed successfully")
                 if result.stdout.strip():
-                    print(f"📄 Output: {result.stdout.strip()}")
+                    print(f"Output: {result.stdout.strip()}")
                 return True, result.stdout
             else:
-                print(f"❌ Command failed: {result.stderr.strip()}")
+                print(f"Command failed: {result.stderr.strip()}")
                 return False, result.stderr
                 
         except subprocess.TimeoutExpired:
-            print("❌ Command timed out")
+            print("Command timed out")
             return False, "Command timed out"
         except Exception as e:
-            print(f"❌ Error executing command: {e}")
+            print(f"Error executing command: {e}")
             return False, str(e)
     
     def check_program_exists(self, program_name):
@@ -143,7 +143,7 @@ class SystemUtils:
             Path(directory_path).mkdir(parents=True, exist_ok=True)
             return True
         except Exception as e:
-            print(f"❌ Failed to create directory {directory_path}: {e}")
+            print(f" Failed to create directory {directory_path}: {e}")
             return False
     
     def get_system_path(self, path_key):
@@ -221,7 +221,7 @@ class SystemUtils:
                         print("\nExiting...")
                         sys.exit(0)
                     else:
-                        print(f"\n❌ Invalid option '{key}'. Please try again.")
+                        print(f"\n Invalid option '{key}'. Please try again.")
                         print(f"Select option by pressing the number key: ", end="", flush=True)
         except ImportError:
             # Fallback to regular input for non-Windows systems
@@ -230,5 +230,5 @@ class SystemUtils:
                 if choice in options:
                     return choice
                 else:
-                    print("❌ Invalid option. Please try again.")
+                    print(" Invalid option. Please try again.")
                     self.pause_execution()

@@ -24,7 +24,7 @@ class AppInstaller:
             # Check if winget is available
             winget_available = self.check_winget_available()
             if not winget_available:
-                print("❌ Winget is not available. Please install Windows Package Manager first.")
+                print(" Winget is not available. Please install Windows Package Manager first.")
                 self.system.pause_execution()
                 return
             
@@ -68,7 +68,7 @@ class AppInstaller:
 
                 # Add download link option as the last option before back
                 num_versions = len(app.get('versions', ['latest']))
-                options[str(num_versions + 1)] = {"title": f"📋 Download from: {app.get('download_url', 'N/A')}"}
+                options[str(num_versions + 1)] = {"title": f" Download from: {app.get('download_url', 'N/A')}"}
                 options["0"] = {"title": "Back to Apps List"}
 
                 self.system.print_menu(f"OPTIONS FOR {app['name']}", options)
@@ -88,15 +88,15 @@ class AppInstaller:
                     elif choice_num == num_versions + 1:
                         # Show download link
                         download_url = app.get('download_url', 'N/A')
-                        print(f"\n🌐 Download link for {app['name']}:")
-                        print(f"🔗 {download_url}")
-                        print("\n💡 You can copy this link to manually download the application.")
+                        print(f"\n Download link for {app['name']}:")
+                        print(f" {download_url}")
+                        print("\n You can copy this link to manually download the application.")
                         self.system.pause_execution()
                     else:
-                        print("❌ Invalid option")
+                        print(" Invalid option")
                         self.system.pause_execution()
         else:
-            print("❌ Invalid app index")
+            print(" Invalid app index")
             self.system.pause_execution()
 
     def install_single_app(self, app_index):
@@ -105,14 +105,14 @@ class AppInstaller:
             app = self.apps[app_index]
             self.install_app_winget(app['id'], app['name'])
         else:
-            print("❌ Invalid app index")
+            print(" Invalid app index")
             self.system.pause_execution()
 
     def install_app_winget_version(self, app_id, app_name, version):
         """Install a specific version of application using winget"""
         print(f"\nInstalling {app_name} ({version})...")
-        print(f"🔧 Package ID: {app_id}")
-        print(f"🔧 Version: {version}")
+        print(f" Package ID: {app_id}")
+        print(f" Version: {version}")
         print("-" * 40)
 
         try:
@@ -129,7 +129,7 @@ class AppInstaller:
                 "--ignore-warnings"
             ])
 
-            print(f"🔧 Executing: {' '.join(command)}")
+            print(f" Executing: {' '.join(command)}")
 
             result = subprocess.run(
                 command,
@@ -139,7 +139,7 @@ class AppInstaller:
             )
 
             if result.returncode == 0:
-                print(f"✅ {app_name} ({version}) installed successfully")
+                print(f" {app_name} ({version}) installed successfully")
                 return True
             else:
                 # Check if already installed
@@ -147,21 +147,21 @@ class AppInstaller:
                     print(f"ℹ️ {app_name} ({version}) is already installed")
                     return True
                 else:
-                    print(f"❌ Failed to install {app_name} ({version})")
-                    print(f"📄 Error: {result.stderr.strip()}")
+                    print(f" Failed to install {app_name} ({version})")
+                    print(f" Error: {result.stderr.strip()}")
                     return False
 
         except subprocess.TimeoutExpired:
-            print(f"❌ Installation of {app_name} ({version}) timed out")
+            print(f" Installation of {app_name} ({version}) timed out")
             return False
         except Exception as e:
-            print(f"❌ Error installing {app_name} ({version}): {e}")
+            print(f" Error installing {app_name} ({version}): {e}")
             return False
     
     def install_all_apps(self):
         """Install all essential apps"""
         if not self.system.get_confirmation("Install all essential apps? This may take several minutes."):
-            print("❌ Operation cancelled")
+            print(" Operation cancelled")
             return
 
         for app in self.apps:
@@ -172,7 +172,7 @@ class AppInstaller:
     def install_app_winget(self, app_id, app_name):
         """Install application using winget"""
         print(f"\nInstalling {app_name}...")
-        print(f"🔧 Package ID: {app_id}")
+        print(f" Package ID: {app_id}")
         print("-" * 40)
         
         try:
@@ -186,7 +186,7 @@ class AppInstaller:
                 "--ignore-warnings"
             ]
             
-            print(f"🔧 Executing: {' '.join(command)}")
+            print(f" Executing: {' '.join(command)}")
             
             result = subprocess.run(
                 command,
@@ -196,7 +196,7 @@ class AppInstaller:
             )
             
             if result.returncode == 0:
-                print(f"✅ {app_name} installed successfully")
+                print(f" {app_name} installed successfully")
                 return True
             else:
                 # Check if already installed
@@ -204,15 +204,15 @@ class AppInstaller:
                     print(f"ℹ️ {app_name} is already installed")
                     return True
                 else:
-                    print(f"❌ Failed to install {app_name}")
-                    print(f"📄 Error: {result.stderr.strip()}")
+                    print(f" Failed to install {app_name}")
+                    print(f" Error: {result.stderr.strip()}")
                     return False
                     
         except subprocess.TimeoutExpired:
-            print(f"❌ Installation of {app_name} timed out")
+            print(f" Installation of {app_name} timed out")
             return False
         except Exception as e:
-            print(f"❌ Error installing {app_name}: {e}")
+            print(f" Error installing {app_name}: {e}")
             return False
     
     def uninstall_app_winget(self, app_id, app_name):
@@ -236,18 +236,18 @@ class AppInstaller:
             )
             
             if result.returncode == 0:
-                print(f"✅ {app_name} uninstalled successfully")
+                print(f" {app_name} uninstalled successfully")
                 return True
             else:
-                print(f"❌ Failed to uninstall {app_name}")
-                print(f"📄 Error: {result.stderr.strip()}")
+                print(f" Failed to uninstall {app_name}")
+                print(f" Error: {result.stderr.strip()}")
                 return False
                 
         except subprocess.TimeoutExpired:
-            print(f"❌ Uninstallation of {app_name} timed out")
+            print(f" Uninstallation of {app_name} timed out")
             return False
         except Exception as e:
-            print(f"❌ Error uninstalling {app_name}: {e}")
+            print(f" Error uninstalling {app_name}: {e}")
             return False
     
     def check_app_installed(self, app_id):
@@ -267,7 +267,7 @@ class AppInstaller:
     
     def update_app_winget(self, app_id, app_name):
         """Update application using winget"""
-        print(f"\n🔄 Updating {app_name}...")
+        print(f"\n Updating {app_name}...")
         
         try:
             command = [
@@ -286,37 +286,37 @@ class AppInstaller:
             )
             
             if result.returncode == 0:
-                print(f"✅ {app_name} updated successfully")
+                print(f" {app_name} updated successfully")
                 return True
             else:
-                print(f"❌ Failed to update {app_name}")
-                print(f"📄 Error: {result.stderr.strip()}")
+                print(f" Failed to update {app_name}")
+                print(f" Error: {result.stderr.strip()}")
                 return False
                 
         except subprocess.TimeoutExpired:
-            print(f"❌ Update of {app_name} timed out")
+            print(f" Update of {app_name} timed out")
             return False
         except Exception as e:
-            print(f"❌ Error updating {app_name}: {e}")
+            print(f" Error updating {app_name}: {e}")
             return False
     
     def show_installed_apps(self):
         """Show all installed apps from our list"""
-        print("\n📋 Installed Apps Status")
+        print("\n Installed Apps Status")
         print("=" * 40)
         
         for app in self.apps:
             if self.check_app_installed(app['id']):
-                print(f"✅ {app['name']} - Installed")
+                print(f" {app['name']} - Installed")
             else:
-                print(f"❌ {app['name']} - Not Installed")
+                print(f" {app['name']} - Not Installed")
         
         self.system.pause_execution()
     
     def add_custom_app(self, app_id, app_name):
         """Add a custom app to the list"""
         self.apps.append({"id": app_id, "name": app_name})
-        print(f"✅ Added custom app: {app_name} ({app_id})")
+        print(f" Added custom app: {app_name} ({app_id})")
         return True
     
     def remove_custom_app(self, app_name):
@@ -324,10 +324,10 @@ class AppInstaller:
         for i, app in enumerate(self.apps):
             if app['name'] == app_name:
                 removed_app = self.apps.pop(i)
-                print(f"✅ Removed custom app: {app_name}")
+                print(f" Removed custom app: {app_name}")
                 return True
         
-        print(f"❌ App not found: {app_name}")
+        print(f" App not found: {app_name}")
         return False
     
     def get_available_apps(self):
@@ -346,14 +346,14 @@ class AppInstaller:
             )
             
             if result.returncode == 0:
-                print(f"\n🔍 Search results for '{query}':")
+                print(f"\n Search results for '{query}':")
                 print("-" * 50)
                 print(result.stdout)
                 return True
             else:
-                print(f"❌ Search failed: {result.stderr}")
+                print(f" Search failed: {result.stderr}")
                 return False
                 
         except Exception as e:
-            print(f"❌ Error searching for apps: {e}")
+            print(f" Error searching for apps: {e}")
             return False

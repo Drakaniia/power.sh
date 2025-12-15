@@ -78,12 +78,12 @@ class WindowsDebloat:
             url, name = all_scripts[choice]
             success = self.system.run_powershell_script(url, name)
             if success:
-                print(f"✅ {name} completed successfully")
+                print(f" {name} completed successfully")
             else:
-                print(f"❌ {name} failed")
+                print(f" {name} failed")
             self.system.pause_execution()
         else:
-            print("❌ Invalid option")
+            print(" Invalid option")
             self.system.pause_execution()
     
     def run_debloat_script(self, script_type, script_key):
@@ -92,7 +92,7 @@ class WindowsDebloat:
             script = self.scripts[script_type][script_key]
             return self.system.run_powershell_script(script['url'], script['name'])
         else:
-            print(f"❌ Invalid script: {script_type}.{script_key}")
+            print(f" Invalid script: {script_type}.{script_key}")
             return False
     
     def run_win11debloat(self):

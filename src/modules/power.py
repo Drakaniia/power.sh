@@ -53,11 +53,11 @@ class PowerManagement:
         print("=" * 50)
         
         if not self.system.get_confirmation("Unlock Ultimate Performance power plan?"):
-            print("❌ Operation cancelled")
+            print("Operation cancelled")
             return
         
         # Step 1: Duplicate the scheme
-        print("\n🔧 Step 1: Duplicating Ultimate Performance scheme...")
+        print("\nStep 1: Duplicating Ultimate Performance scheme...")
         command = f"powercfg -duplicatescheme {self.ultimate_performance_guid}"
         
         success, output = self.system.run_command(command, shell=False, timeout=30)
@@ -67,15 +67,15 @@ class PowerManagement:
             guid = self.extract_guid_from_output(output)
             
             if guid:
-                print(f"✅ Power plan created with GUID: {guid}")
+                print(f"Power plan created with GUID: {guid}")
                 
                 # Step 2: Ask if user wants to activate it
                 if self.system.get_confirmation(f"Activate the Ultimate Performance plan now?"):
                     if self.activate_power_plan(guid):
-                        print("✅ Ultimate Performance plan activated!")
+                        print("Ultimate Performance plan activated!")
                 
                 # Step 3: Show active scheme
-                print("\n🔍 Current active power scheme:")
+                print("\nCurrent active power scheme:")
                 self.show_active_plan()
                 
                 # Step 4: Open Power Options
@@ -83,9 +83,9 @@ class PowerManagement:
                     self.open_power_options()
                     
             else:
-                print("❌ Could not extract GUID from output")
+                print("Could not extract GUID from output")
         else:
-            print("❌ Failed to duplicate power scheme")
+            print("Failed to duplicate power scheme")
         
         self.system.pause_execution()
     
@@ -104,7 +104,7 @@ class PowerManagement:
     
     def list_power_plans(self):
         """List all available power plans"""
-        print("\n📋 Available Power Plans")
+        print("\nAvailable Power Plans")
         print("=" * 40)
         
         command = "powercfg -list"
@@ -113,13 +113,13 @@ class PowerManagement:
         if success:
             print(output)
         else:
-            print("❌ Failed to list power plans")
+            print("Failed to list power plans")
         
         self.system.pause_execution()
     
     def show_active_plan(self):
         """Show the currently active power plan"""
-        print("\n✅ Active Power Plan")
+        print("\nActive Power Plan")
         print("=" * 30)
         
         command = "powercfg /getactivescheme"
@@ -128,13 +128,13 @@ class PowerManagement:
         if success:
             print(output)
         else:
-            print("❌ Failed to get active power plan")
+            print("Failed to get active power plan")
         
         self.system.pause_execution()
     
     def switch_power_plan(self):
         """Switch to a different power plan"""
-        print("\n🔄 Switch Power Plan")
+        print("\nSwitch Power Plan")
         print("=" * 30)
         
         # First, list all available plans
@@ -142,7 +142,7 @@ class PowerManagement:
         success, output = self.system.run_command(command, shell=False)
         
         if not success:
-            print("❌ Failed to list power plans")
+            print("Failed to list power plans")
             self.system.pause_execution()
             return
         
@@ -153,22 +153,22 @@ class PowerManagement:
         guid = input("\nEnter the GUID of the power plan to activate: ").strip()
         
         if not guid:
-            print("❌ No GUID provided")
+            print("No GUID provided")
             self.system.pause_execution()
             return
         
         # Validate GUID format
         if not re.match(r'^\{[0-9a-fA-F-]{36\}$', guid):
-            print("❌ Invalid GUID format")
+            print("Invalid GUID format")
             self.system.pause_execution()
             return
         
         if self.system.get_confirmation(f"Activate power plan {guid}?"):
             if self.activate_power_plan(guid):
-                print("✅ Power plan activated successfully!")
+                print("Power plan activated successfully!")
                 self.show_active_plan()
             else:
-                print("❌ Failed to activate power plan")
+                print("Failed to activate power plan")
         
         self.system.pause_execution()
     
@@ -179,7 +179,7 @@ class PowerManagement:
         
         plan_name = input("Enter name for the custom power plan: ").strip()
         if not plan_name:
-            print("❌ No plan name provided")
+            print("No plan name provided")
             self.system.pause_execution()
             return
         
@@ -188,13 +188,13 @@ class PowerManagement:
         success, output = self.system.run_command(command, shell=False)
         
         if not success:
-            print("❌ Failed to get active power plan")
+            print("Failed to get active power plan")
             self.system.pause_execution()
             return
         
         base_guid = self.extract_guid_from_output(output)
         if not base_guid:
-            print("❌ Could not extract base plan GUID")
+            print("Could not extract base plan GUID")
             self.system.pause_execution()
             return
         
@@ -210,18 +210,18 @@ class PowerManagement:
                 success, _ = self.system.run_command(rename_command, shell=False)
                 
                 if success:
-                    print(f"✅ Custom power plan '{plan_name}' created successfully!")
-                    print(f"📋 GUID: {new_guid}")
+                    print(f"Custom power plan '{plan_name}' created successfully!")
+                    print(f"GUID: {new_guid}")
                     
                     if self.system.get_confirmation("Activate the new custom plan?"):
                         self.activate_power_plan(new_guid)
-                        print("✅ Custom plan activated!")
+                        print("Custom plan activated!")
                 else:
-                    print("❌ Failed to rename the power plan")
+                    print("Failed to rename the power plan")
             else:
-                print("❌ Could not extract new plan GUID")
+                print("Could not extract new plan GUID")
         else:
-            print("❌ Failed to create custom power plan")
+            print("Failed to create custom power plan")
         
         self.system.pause_execution()
     
@@ -229,10 +229,10 @@ class PowerManagement:
         """Open Power Options control panel"""
         try:
             subprocess.Popen(["powercfg.cpl"], shell=True)
-            print("✅ Power Options opened")
+            print("Power Options opened")
             return True
         except Exception as e:
-            print(f"❌ Failed to open Power Options: {e}")
+            print(f"Failed to open Power Options: {e}")
             return False
     
     def get_power_plan_info(self, guid):
