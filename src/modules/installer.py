@@ -28,17 +28,17 @@ class AppInstaller:
                 self.system.pause_execution()
                 return
             
-            print("Available Apps to Install")
-            print("=" * 40)
-            
+            # Create options dynamically
+            options = {}
             for i, app in enumerate(self.apps, 1):
-                print(f"[{i}] {app['name']}")
-            
-            print("\n[0] Back to Main Menu")
-            print("[99] Install All Apps")
-            
+                options[str(i)] = {"title": app['name']}
+            options["0"] = {"title": "Back to Main Menu"}
+            options["99"] = {"title": "Install All Apps"}
+
+            self.system.print_menu("APP INSTALLER", options)
+
             choice = input("\nSelect option: ").strip()
-            
+
             if choice == "0":
                 return
             elif choice == "99":

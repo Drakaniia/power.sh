@@ -59,8 +59,8 @@ class WindowsAutomationToolkit:
             
             self.system.print_menu("MAIN MENU", UI_CONFIG["menu_options"])
             
-            choice = input("Select option: ").strip()
-            
+            choice = self.system.get_menu_choice(UI_CONFIG["menu_options"])
+
             if choice == "1":
                 self.debloat.show_debloat_menu()
             elif choice == "2":
@@ -76,10 +76,7 @@ class WindowsAutomationToolkit:
             elif choice == "0":
                 self.exit_toolkit()
                 break
-            else:
-                print("❌ Invalid option. Please try again.")
-                self.system.pause_execution()
-    
+
     def exit_toolkit(self):
         """Exit the toolkit with a farewell message"""
         self.system.clear_screen()

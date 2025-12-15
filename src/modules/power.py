@@ -20,18 +20,20 @@ class PowerManagement:
         while True:
             self.system.clear_screen()
             self.system.print_header("Power Management")
-            
-            print("Power Management Options")
-            print("=" * 40)
-            print("[1] Unlock Ultimate Performance Plan")
-            print("[2] List All Power Plans")
-            print("[3] Show Active Power Plan")
-            print("[4] Switch Power Plan")
-            print("[5] Create Custom Power Plan")
-            print("[0] Back to Main Menu")
-            
-            choice = input("\nSelect option: ").strip()
-            
+
+            options = {
+                "1": {"title": "Unlock Ultimate Performance Plan"},
+                "2": {"title": "List All Power Plans"},
+                "3": {"title": "Show Active Power Plan"},
+                "4": {"title": "Switch Power Plan"},
+                "5": {"title": "Create Custom Power Plan"},
+                "0": {"title": "Back to Main Menu"}
+            }
+
+            self.system.print_menu("POWER MANAGEMENT", options)
+
+            choice = self.system.get_menu_choice(options)
+
             if choice == "1":
                 self.unlock_ultimate_performance()
             elif choice == "2":
@@ -44,9 +46,6 @@ class PowerManagement:
                 self.create_custom_plan()
             elif choice == "0":
                 return
-            else:
-                print("❌ Invalid option")
-                self.system.pause_execution()
     
     def unlock_ultimate_performance(self):
         """Unlock Ultimate Performance power plan"""

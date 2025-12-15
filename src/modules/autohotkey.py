@@ -24,18 +24,20 @@ class AutoHotKeyManager:
             self.system.clear_screen()
             self.system.print_header("AutoHotKey Setup & Management")
             
-            print("AutoHotKey Options")
-            print("=" * 40)
-            print("[1] Install AutoHotKey")
-            print("[2] Create/Update Script")
-            print("[3] Run Script")
-            print("[4] Stop Script")
-            print("[5] Add to Startup")
-            print("[6] Script Status")
-            print("[0] Back to Main Menu")
-            
-            choice = input("\nSelect option: ").strip()
-            
+            options = {
+                "1": {"title": "Install AutoHotKey"},
+                "2": {"title": "Create/Update Script"},
+                "3": {"title": "Run Script"},
+                "4": {"title": "Stop Script"},
+                "5": {"title": "Add to Startup"},
+                "6": {"title": "Script Status"},
+                "0": {"title": "Back to Main Menu"}
+            }
+
+            self.system.print_menu("AUTOHOTKEY OPTIONS", options)
+
+            choice = self.system.get_menu_choice(options)
+
             if choice == "1":
                 self.install_autohotkey()
             elif choice == "2":
@@ -50,9 +52,6 @@ class AutoHotKeyManager:
                 self.show_script_status()
             elif choice == "0":
                 return
-            else:
-                print("❌ Invalid option")
-                self.system.pause_execution()
     
     def check_autohotkey_installed(self):
         """Check if AutoHotKey is installed"""

@@ -18,31 +18,35 @@ class WindowsDebloat:
         while True:
             self.system.clear_screen()
             self.system.print_header("Windows Debloat & Tweaks")
-            
-            print("Available Debloat & Tweaks Options")
-            print("=" * 50)
-            
-            # Debloat options
+
+            # Create options dynamically based on all scripts
+            options = {}
+            script_index = 1
+
+            # Add debloat scripts
             print("\nDebloat Options:")
-            for i, (key, script) in enumerate(self.scripts["debloat"].items(), 1):
-                print(f"[{i}] {script['name']} - {script['description']}")
-            
-            # Tweaks options
+            for key, script in self.scripts["debloat"].items():
+                options[str(script_index)] = {"title": f"{script['name']} - {script['description']}"}
+                script_index += 1
+
+            # Add tweak scripts
             print("\nWindows Tweaks:")
-            tweak_count = len(self.scripts["debloat"])
-            for i, (key, script) in enumerate(self.scripts["tweaks"].items(), tweak_count + 1):
-                print(f"[{i}] {script['name']} - {script['description']}")
-            
-            # Activation options
-            print("\n🔑 Windows Activation:")
-            activation_count = tweak_count + len(self.scripts["tweaks"])
-            for i, (key, script) in enumerate(self.scripts["activation"].items(), activation_count + 1):
-                print(f"[{i}] {script['name']} - {script['description']}")
-            
-            print("\n[0] Back to Main Menu")
-            
+            for key, script in self.scripts["tweaks"].items():
+                options[str(script_index)] = {"title": f"{script['name']} - {script['description']}"}
+                script_index += 1
+
+            # Add activation scripts
+            print("\nWindows Activation:")
+            for key, script in self.scripts["activation"].items():
+                options[str(script_index)] = {"title": f"{script['name']} - {script['description']}"}
+                script_index += 1
+
+            options["0"] = {"title": "Back to Main Menu"}
+
+            self.system.print_menu("DEBLOAT & TWEAKS", options)
+
             choice = input("\nSelect option: ").strip()
-            
+
             if choice == "0":
                 return
             elif choice.isdigit():

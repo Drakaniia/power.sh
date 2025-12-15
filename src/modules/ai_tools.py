@@ -28,18 +28,18 @@ class AIToolsInstaller:
                 self.system.pause_execution()
                 return
             
-            print("Available AI Tools to Install")
-            print("=" * 40)
-            
+            # Create options dynamically
+            options = {}
             for i, tool in enumerate(self.tools, 1):
-                print(f"[{i}] {tool['name']}")
-            
-            print("[3] 🌊 iFlow CLI")
-            print("\n[0] Back to Main Menu")
-            print("[99] Install All Tools")
-            
+                options[str(i)] = {"title": tool['name']}
+            options["3"] = {"title": "🌊 iFlow CLI"}  # iFlow CLI is special case
+            options["0"] = {"title": "Back to Main Menu"}
+            options["99"] = {"title": "Install All Tools"}
+
+            self.system.print_menu("AI TOOLS INSTALLER", options)
+
             choice = input("\nSelect option: ").strip()
-            
+
             if choice == "0":
                 return
             elif choice == "99":

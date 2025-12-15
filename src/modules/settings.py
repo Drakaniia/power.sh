@@ -32,21 +32,15 @@ class WindowsSettings:
                 "0": {"title": "Back to Main Menu", "command": "back"}
             }
             
-            for key, option in options.items():
-                if key == "0":
-                    print(f"[{key}] {option['title']}")
-                else:
-                    print(f"[{key}] {option['title']}")
-            
-            choice = input("\nSelect option: ").strip()
-            
+            # Use the system's print_menu function to display options
+            self.system.print_menu("WINDOWS SETTINGS & RUN COMMANDS", options)
+
+            choice = self.system.get_menu_choice(options)
+
             if choice == "0":
                 return
             elif choice in options:
                 self.handle_settings_choice(options[choice])
-            else:
-                print("❌ Invalid option")
-                self.system.pause_execution()
     
     def handle_settings_choice(self, option):
         """Handle user's settings choice"""

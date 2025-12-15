@@ -201,7 +201,7 @@ class SystemUtils:
     def get_menu_choice(self, options):
         """Get and validate menu choice"""
         while True:
-            choice = input("Select option: ").strip()
+            choice = input("Select option by typing the number and pressing Enter: ").strip()
             if choice in options:
                 return choice
             else:
