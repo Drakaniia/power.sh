@@ -215,7 +215,11 @@ class SystemUtils:
         """
         # Special handling for node.js detection to try multiple possible names/locations
         if program_name.lower() in ['node', 'nodejs']:
-            node_variants = ['node', 'nodejs']
+            import os
+            # Try to refresh the PATH environment variable to catch recently installed programs
+            os.environ.update(os.environ)
+
+            node_variants = ['node', 'nodejs', 'node.exe', 'nodejs.exe']
             for variant in node_variants:
                 try:
                     result = subprocess.run([variant, "--version"],
@@ -223,6 +227,23 @@ class SystemUtils:
                     return True
                 except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired):
                     continue
+
+            # If standard checks fail, try to find Node.js in common installation directories
+            common_node_paths = [
+                r"C:\Program Files\nodejs\node.exe",
+                r"C:\Program Files (x86)\nodejs\node.exe",
+                os.path.expanduser(r"~\AppData\Local\Programs\nodejs\node.exe")
+            ]
+
+            for path in common_node_paths:
+                if os.path.exists(path):
+                    try:
+                        result = subprocess.run([path, "--version"],
+                                              capture_output=True, check=True, timeout=10)
+                        return True
+                    except (subprocess.CalledProcessError, subprocess.TimeoutExpired):
+                        continue
+
             return False  # None of the variants worked
         else:
             # For other programs, use the original method
