@@ -351,8 +351,10 @@ SCRIPTEND
         fi
     else
         echo "Administrator privileges required for debloat scripts"
-        echo "To run with Administrator privileges, copy and paste this command in PowerShell as Administrator:"
-        echo "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile', '-Command', 'Set-Location (Get-Location); bash bin/run.sh'"
+        echo "To run with Administrator privileges:"
+        echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+        echo "2. Navigate to the project directory"
+        echo "3. Run: bash bin/run.sh"
         return 1
     fi
 }
@@ -670,8 +672,10 @@ SCRIPTEND
         fi
     else
         echo "Administrator privileges required for power plan setup"
-        echo "To run with Administrator privileges, copy and paste this command in PowerShell as Administrator:"
-        echo "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile', '-Command', 'Set-Location (Get-Location); bash bin/run.sh'"
+        echo "To run with Administrator privileges:"
+        echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+        echo "2. Navigate to the project directory"
+        echo "3. Run: bash bin/run.sh"
         return 1
     fi
 }
@@ -1217,8 +1221,10 @@ SCRIPTEND
         fi
     else
         echo "Administrator privileges required for application installation"
-        echo "To run with Administrator privileges, copy and paste this command in PowerShell as Administrator:"
-        echo "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile', '-Command', 'Set-Location (Get-Location); bash bin/run.sh'"
+        echo "To run with Administrator privileges:"
+        echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+        echo "2. Navigate to the project directory"
+        echo "3. Run: bash bin/run.sh"
         return 1
     fi
 }
@@ -2546,8 +2552,10 @@ SCRIPTEND
         fi
     else
         echo "Administrator privileges required for system settings configuration"
-        echo "To run with Administrator privileges, copy and paste this command in PowerShell as Administrator:"
-        echo "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile', '-Command', 'Set-Location (Get-Location); bash bin/run.sh'"
+        echo "To run with Administrator privileges:"
+        echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+        echo "2. Navigate to the project directory"
+        echo "3. Run: bash bin/run.sh"
         return 1
     fi
 }
@@ -2577,24 +2585,36 @@ run_all_phases() {
     info "Starting complete setup..."
 
     # Phase 1: Optional debloat (requires admin)
-    if ! debloat_selection; then
+    if check_admin_privileges; then
+        debloat_selection
+    else
         echo "Debloat scripts require Administrator privileges"
-        echo "To run with Administrator privileges, copy and paste this command in PowerShell as Administrator:"
-        echo "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile', '-Command', 'Set-Location (Get-Location); bash bin/run.sh'"
+        echo "To run with Administrator privileges:"
+        echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+        echo "2. Navigate to the project directory"
+        echo "3. Run: bash bin/run.sh"
     fi
 
     # Phase 2: Power plan (requires admin)
-    if ! setup_power_plan; then
+    if check_admin_privileges; then
+        setup_power_plan
+    else
         echo "Power plan setup requires Administrator privileges"
-        echo "To run with Administrator privileges, copy and paste this command in PowerShell as Administrator:"
-        echo "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile', '-Command', 'Set-Location (Get-Location); bash bin/run.sh'"
+        echo "To run with Administrator privileges:"
+        echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+        echo "2. Navigate to the project directory"
+        echo "3. Run: bash bin/run.sh"
     fi
 
     # Phase 3: Applications (requires admin for some apps)
-    if ! install_applications; then
+    if check_admin_privileges; then
+        install_applications
+    else
         echo "Application installation requires Administrator privileges"
-        echo "To run with Administrator privileges, copy and paste this command in PowerShell as Administrator:"
-        echo "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile', '-Command', 'Set-Location (Get-Location); bash bin/run.sh'"
+        echo "To run with Administrator privileges:"
+        echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+        echo "2. Navigate to the project directory"
+        echo "3. Run: bash bin/run.sh"
     fi
 
     # Phase 4: CLI tools (can run without admin if Node.js available)
@@ -2604,10 +2624,14 @@ run_all_phases() {
     setup_autohotkey
 
     # Phase 6: System settings (mixed requirements)
-    if ! configure_system_settings; then
+    if check_admin_privileges; then
+        configure_system_settings
+    else
         echo "System settings configuration requires Administrator privileges"
-        echo "To run with Administrator privileges, copy and paste this command in PowerShell as Administrator:"
-        echo "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile', '-Command', 'Set-Location (Get-Location); bash bin/run.sh'"
+        echo "To run with Administrator privileges:"
+        echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+        echo "2. Navigate to the project directory"
+        echo "3. Run: bash bin/run.sh"
     fi
 
     show_completion_summary
@@ -2645,32 +2669,38 @@ main() {
 
         case $choice in
             1)
-                if check_admin_privileges; then
-                    debloat_selection
-                else
+                if ! check_admin_privileges; then
                     echo "Administrator privileges required for debloat scripts"
-                    echo "To run with Administrator privileges, copy and paste this command in PowerShell as Administrator:"
-                    echo "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile', '-Command', 'Set-Location (Get-Location); bash bin/run.sh'"
+                    echo "To run with Administrator privileges:"
+                    echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+                    echo "2. Navigate to the project directory"
+                    echo "3. Run: bash bin/run.sh"
+                else
+                    debloat_selection
                 fi
                 read -p "Press Enter to continue..."
                 ;;
             2)
-                if check_admin_privileges; then
-                    setup_power_plan
-                else
+                if ! check_admin_privileges; then
                     echo "Administrator privileges required for power plan setup"
-                    echo "To run with Administrator privileges, copy and paste this command in PowerShell as Administrator:"
-                    echo "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile', '-Command', 'Set-Location (Get-Location); bash bin/run.sh'"
+                    echo "To run with Administrator privileges:"
+                    echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+                    echo "2. Navigate to the project directory"
+                    echo "3. Run: bash bin/run.sh"
+                else
+                    setup_power_plan
                 fi
                 read -p "Press Enter to continue..."
                 ;;
             3)
-                if check_admin_privileges; then
-                    install_applications
-                else
+                if ! check_admin_privileges; then
                     echo "Administrator privileges required for application installation"
-                    echo "To run with Administrator privileges, copy and paste this command in PowerShell as Administrator:"
-                    echo "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile', '-Command', 'Set-Location (Get-Location); bash bin/run.sh'"
+                    echo "To run with Administrator privileges:"
+                    echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+                    echo "2. Navigate to the project directory"
+                    echo "3. Run: bash bin/run.sh"
+                else
+                    install_applications
                 fi
                 read -p "Press Enter to continue..."
                 ;;
@@ -2683,12 +2713,14 @@ main() {
                 read -p "Press Enter to continue..."
                 ;;
             6)
-                if check_admin_privileges; then
-                    configure_system_settings
-                else
+                if ! check_admin_privileges; then
                     echo "Administrator privileges required for system settings configuration"
-                    echo "To run with Administrator privileges, copy and paste this command in PowerShell as Administrator:"
-                    echo "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile', '-Command', 'Set-Location (Get-Location); bash bin/run.sh'"
+                    echo "To run with Administrator privileges:"
+                    echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+                    echo "2. Navigate to the project directory"
+                    echo "3. Run: bash bin/run.sh"
+                else
+                    configure_system_settings
                 fi
                 read -p "Press Enter to continue..."
                 ;;
