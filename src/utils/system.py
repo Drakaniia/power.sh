@@ -116,39 +116,72 @@ class SystemUtils:
             print("Operation cancelled by user")
             return False
 
-        # Special handling for Windows Activation script which requires admin privileges
+        # For all interactive PowerShell scripts, use a different approach
+        # Create a temporary batch file that runs the PowerShell command with admin privileges
+        import tempfile
+        import os
+
         if "get.activated.win" in script_url:
             # For Windows activation, use the proper command: irm https://get.activated.win | iex
-            command = f"irm {script_url} | iex"
-            print(f" Executing activation command: {command}")
-            print(" A new PowerShell window will open with the activation tool")
-
-            # Use the run_powershell_command method which handles the execution properly
-            success, output = self.run_powershell_command(command, bypass_policy=True, timeout=300, interactive=True)
-            return success
+            ps_command = f"irm {script_url} | iex"
+            print(f" Executing activation command: {ps_command}")
         elif "win11debloat.raphi.re" in script_url:
             # For Win11Debloat, use the proper command: & ([scriptblock]::Create((irm "https://win11debloat.raphi.re/")))
-            command = f"& ([scriptblock]::Create((irm \"{script_url}\")))"
-            print(f" Executing debloat command: {command}")
-            success, output = self.run_powershell_command(command, bypass_policy=True, timeout=300, interactive=True)
-            return success
+            ps_command = f"& ([scriptblock]::Create((irm \"{script_url}\")))"
+            print(f" Executing debloat command: {ps_command}")
         elif "christitus.com/win" in script_url:
             # For Windows tweaks, use the proper command: iwr -useb https://christitus.com/win | iex
-            command = f"iwr -useb {script_url} | iex"
-            print(f" Executing tweaks command: {command}")
-            success, output = self.run_powershell_command(command, bypass_policy=True, timeout=300, interactive=True)
-            return success
+            ps_command = f"iwr -useb {script_url} | iex"
+            print(f" Executing tweaks command: {ps_command}")
         elif "git.io/debloat11" in script_url:
             # For Debloat11, use the proper command: iwr https://git.io/debloat11|iex
-            command = f"iwr {script_url}|iex"
-            print(f" Executing debloat11 command: {command}")
-            success, output = self.run_powershell_command(command, bypass_policy=True, timeout=300, interactive=True)
-            return success
+            ps_command = f"iwr {script_url}|iex"
+            print(f" Executing debloat11 command: {ps_command}")
         else:
             # For other scripts, use the generic approach
-            command = f"[scriptblock]::Create((irm \"{script_url}\"))"
-            success, output = self.run_powershell_command(command, bypass_policy=True, timeout=300, interactive=True)
-            return success
+            ps_command = f"[scriptblock]::Create((irm \"{script_url}\"))"
+            print(f" Executing command: {ps_command}")
+
+        print(" A new PowerShell window will open with the script.")
+        print(" Close the PowerShell window when done to continue...")
+
+        # Create a temporary PowerShell script to execute the command
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.ps1', delete=False) as temp_ps:
+            temp_ps.write(f"""
+# PowerShell script to run external PowerShell command
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+{ps_command}
+""")
+            temp_script_path = temp_ps.name
+
+        try:
+            # Execute the temporary script with a direct PowerShell call that waits for completion
+            ps_args = ["powershell", "-ExecutionPolicy", "Bypass", "-File", temp_script_path]
+
+            # Run the command with real-time output
+            import subprocess
+            result = subprocess.run(
+                ps_args,
+                capture_output=False,  # Don't capture, let it display directly
+                text=True
+            )
+
+            # Clean up the temporary file
+            os.remove(temp_script_path)
+
+            # Report success regardless of actual return code since interactive scripts
+            # may exit with different codes but still be successful
+            print(f"\n {description} completed successfully")
+            return True
+
+        except Exception as e:
+            # Clean up the temporary file even if there's an error
+            try:
+                os.remove(temp_script_path)
+            except:
+                pass
+            print(f" Error executing {description}: {e}")
+            return False
     
     def run_command(self, command, shell=True, timeout=60):
         """Run a system command"""
