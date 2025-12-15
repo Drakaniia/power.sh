@@ -24,9 +24,29 @@ class AIToolsInstaller:
             node_available = self.check_node_npm_available()
             if not node_available:
                 print("❌ Node.js and npm are not available.")
-                print("Please install Node.js first using the Essential Apps Downloader.")
-                self.system.pause_execution()
-                return
+                response = input("Would you like to install Node.js and npm now? (y/n): ").strip().lower()
+                if response in ['y', 'yes']:
+                    print("Installing Node.js LTS...")
+                    # Node.js package ID from ESSENTIAL_APPS
+                    nodejs_id = "OpenJS.NodeJS"
+                    nodejs_name = "Node.js LTS"
+
+                    # Install Node.js using winget directly
+                    success, output = self.system.run_command(f"winget install {nodejs_id} --accept-package-agreements --accept-source-agreements")
+
+                    if success:
+                        print(f"✅ {nodejs_name} installed successfully!")
+                        print("Please restart this toolkit to detect the new installation.")
+                        self.system.pause_execution()
+                        return  # Exit to let user restart
+                    else:
+                        print(f"❌ Failed to install {nodejs_name}")
+                        self.system.pause_execution()
+                        return
+                else:
+                    print("Please install Node.js first using the Essential Apps Downloader.")
+                    self.system.pause_execution()
+                    return
             
             # Create options dynamically
             options = {}
