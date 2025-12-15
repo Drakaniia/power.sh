@@ -353,8 +353,10 @@ SCRIPTEND
         echo "Administrator privileges required for debloat scripts"
         echo "To run with Administrator privileges:"
         echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+        # Convert Unix path to Windows path for PowerShell
+        windows_path=$(dirname "$(dirname "$SCRIPT_DIR")" | sed 's|^/c/|C:\/|; s|/|\\|g')
         echo "2. Navigate to the project directory"
-        echo "   cd \"$(dirname "$(dirname "$SCRIPT_DIR")")\""
+        echo "   cd \"$windows_path\""
         echo "3. Run: bash bin/run.sh"
         return 1
     fi
@@ -675,8 +677,10 @@ SCRIPTEND
         echo "Administrator privileges required for power plan setup"
         echo "To run with Administrator privileges:"
         echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+        # Convert Unix path to Windows path for PowerShell
+        windows_path=$(dirname "$(dirname "$SCRIPT_DIR")" | sed 's|^/c/|C:\/|; s|/|\\|g')
         echo "2. Navigate to the project directory"
-        echo "   cd \"$(dirname "$(dirname "$SCRIPT_DIR")")\""
+        echo "   cd \"$windows_path\""
         echo "3. Run: bash bin/run.sh"
         return 1
     fi
@@ -1225,8 +1229,10 @@ SCRIPTEND
         echo "Administrator privileges required for application installation"
         echo "To run with Administrator privileges:"
         echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+        # Convert Unix path to Windows path for PowerShell
+        windows_path=$(dirname "$(dirname "$SCRIPT_DIR")" | sed 's|^/c/|C:\/|; s|/|\\|g')
         echo "2. Navigate to the project directory"
-        echo "   cd \"$(dirname "$(dirname "$SCRIPT_DIR")")\""
+        echo "   cd \"$windows_path\""
         echo "3. Run: bash bin/run.sh"
         return 1
     fi
@@ -2557,8 +2563,10 @@ SCRIPTEND
         echo "Administrator privileges required for system settings configuration"
         echo "To run with Administrator privileges:"
         echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+        # Convert Unix path to Windows path for PowerShell
+        windows_path=$(dirname "$(dirname "$SCRIPT_DIR")" | sed 's|^/c/|C:\/|; s|/|\\|g')
         echo "2. Navigate to the project directory"
-        echo "   cd \"$(dirname "$(dirname "$SCRIPT_DIR")")\""
+        echo "   cd \"$windows_path\""
         echo "3. Run: bash bin/run.sh"
         return 1
     fi
@@ -2623,8 +2631,10 @@ run_all_phases() {
         echo "Debloat scripts require Administrator privileges"
         echo "To run with Administrator privileges:"
         echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+        # Convert Unix path to Windows path for PowerShell
+        windows_path=$(dirname "$(dirname "$SCRIPT_DIR")" | sed 's|^/c/|C:\/|; s|/|\\|g')
         echo "2. Navigate to the project directory"
-        echo "   cd \"$(dirname "$(dirname "$SCRIPT_DIR")")\""
+        echo "   cd \"$windows_path\""
         echo "3. Run: bash bin/run.sh"
     fi
 
@@ -2635,8 +2645,10 @@ run_all_phases() {
         echo "Power plan setup requires Administrator privileges"
         echo "To run with Administrator privileges:"
         echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+        # Convert Unix path to Windows path for PowerShell
+        windows_path=$(dirname "$(dirname "$SCRIPT_DIR")" | sed 's|^/c/|C:\/|; s|/|\\|g')
         echo "2. Navigate to the project directory"
-        echo "   cd \"$(dirname "$(dirname "$SCRIPT_DIR")")\""
+        echo "   cd \"$windows_path\""
         echo "3. Run: bash bin/run.sh"
     fi
 
@@ -2647,8 +2659,10 @@ run_all_phases() {
         echo "Application installation requires Administrator privileges"
         echo "To run with Administrator privileges:"
         echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+        # Convert Unix path to Windows path for PowerShell
+        windows_path=$(dirname "$(dirname "$SCRIPT_DIR")" | sed 's|^/c/|C:\/|; s|/|\\|g')
         echo "2. Navigate to the project directory"
-        echo "   cd \"$(dirname "$(dirname "$SCRIPT_DIR")")\""
+        echo "   cd \"$windows_path\""
         echo "3. Run: bash bin/run.sh"
     fi
 
@@ -2665,8 +2679,10 @@ run_all_phases() {
         echo "System settings configuration requires Administrator privileges"
         echo "To run with Administrator privileges:"
         echo "1. Open a new PowerShell terminal AS ADMINISTRATOR"
+        # Convert Unix path to Windows path for PowerShell
+        windows_path=$(dirname "$(dirname "$SCRIPT_DIR")" | sed 's|^/c/|C:\/|; s|/|\\|g')
         echo "2. Navigate to the project directory"
-        echo "   cd \"$(dirname "$(dirname "$SCRIPT_DIR")")\""
+        echo "   cd \"$windows_path\""
         echo "3. Run: bash bin/run.sh"
     fi
 
