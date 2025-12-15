@@ -24,26 +24,31 @@ class WindowsDebloat:
             script_index = 1
 
             # Add debloat scripts
-            print("\nDebloat Options:")
             for key, script in self.scripts["debloat"].items():
                 options[str(script_index)] = {"title": f"{script['name']} - {script['description']}"}
                 script_index += 1
 
             # Add tweak scripts
-            print("\nWindows Tweaks:")
             for key, script in self.scripts["tweaks"].items():
                 options[str(script_index)] = {"title": f"{script['name']} - {script['description']}"}
                 script_index += 1
 
             # Add activation scripts
-            print("\nWindows Activation:")
             for key, script in self.scripts["activation"].items():
                 options[str(script_index)] = {"title": f"{script['name']} - {script['description']}"}
                 script_index += 1
 
             options["0"] = {"title": "Back to Main Menu"}
 
-            self.system.print_menu("DEBLOAT & TWEAKS", options)
+            # Print header manually to match the expected format
+            print("DEBLOAT & TWEAKS")
+            print("----------------")
+
+            # Print each option with proper formatting
+            for key, option in options.items():
+                print(f"[{key}] {option.get('title', 'Unknown')}")
+
+            print()
 
             choice = self.system.get_menu_choice(options)
 
