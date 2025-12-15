@@ -46,10 +46,10 @@ class SystemUtils:
         input("\nPress Enter to continue...")
     
     def get_confirmation(self, message):
-        """Get user confirmation for potentially risky operations"""
+        """Get user confirmation for potentially risky operations. Default to 'yes' if Enter is pressed."""
         while True:
-            response = input(f"\n{message} (y/n): ").lower().strip()
-            if response in ['y', 'yes']:
+            response = input(f"\n{message} (Y/n): ").lower().strip()
+            if response == '' or response in ['y', 'yes']:
                 return True
             elif response in ['n', 'no']:
                 return False
